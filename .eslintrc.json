@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "prettier"
+    //"prettier/@typescript-eslint"
+  ],
+  "rules": {
+    "semi": ["error", "always"]
+  },
+  "exclude": ["node_modules"]
+}
