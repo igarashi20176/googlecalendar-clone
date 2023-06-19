@@ -1,13 +1,13 @@
 import { Inter } from 'next/font/google';
 import styles from '@/src/styles/Home.module.css';
 
-export default function Home() {
-  const hello = 'hello js';
+import { AddScheduleDialog } from '@/components/Navigation/container';
 
+export default function Home() {
   return (
     <>
       <div>
-        <p>Hello</p>
+        <p>test</p>
       </div>
     </>
   );
