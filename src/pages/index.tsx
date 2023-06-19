@@ -1,12 +1,14 @@
 import { Inter } from 'next/font/google';
-import styles from '@/src/styles/Home.module.css';
+import styles from '@/styles/Home.module.css';
+
+import { Header } from '@/components/layouts/Header';
+import { CalendarBoard } from '@/components/CalendarBoard';
 
 export default function Home() {
   return (
-    <>
-      <div>
-        <p>test</p>
-      </div>
-    </>
+    <div className={styles.container}>
+      <Header />
+      <CalendarBoard />
+    </div>
   );
 }
