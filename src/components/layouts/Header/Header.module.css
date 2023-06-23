@@ -1,2 +1,23 @@
 .container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: solid 1px;
+  height: 70px;
+}
+
+.header_logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.2;
+}
+
+.logo_image {
+  width: 130px;
+  height: 90px;
+}
+
+.navigation {
+  flex: 0.8;
 }

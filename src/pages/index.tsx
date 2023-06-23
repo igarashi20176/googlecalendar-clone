@@ -7,8 +7,12 @@ import { CalendarBoard } from '@/components/CalendarBoard';
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Header />
-      <CalendarBoard />
+      <div className={styles.container_header}>
+        <Header />
+      </div>
+      <div className={styles.containerBoard}>
+        <CalendarBoard />
+      </div>
     </div>
   );
 }
