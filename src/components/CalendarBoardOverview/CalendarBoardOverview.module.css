@@ -5,11 +5,65 @@
 }
 
 .overview_calendar {
-  flex-basis: 60%;
-  border-bottom: solid 1px;
+  flex-basis: 62%;
+  border-bottom: solid 1px #d0d0d0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overview_calendar_navigation {
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4rem;
+  margin-bottom: 1rem;
+}
+
+.overview_calendar_elements {
+  width: 80%;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.elements {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-row-gap: 1.5rem;
+  text-align: center;
+}
+
+.element {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.element:hover::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(50% + 10px);
+  height: calc(100% + 15px);
+  background-color: #73b8e2;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.element:hover {
+  color: #ffffff;
 }
 
 .overview_options {
-  flex-basis: 40%;
+  flex-basis: 38%;
   flex-grow: 1;
 }

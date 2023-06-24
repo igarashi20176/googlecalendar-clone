@@ -1,2 +1,10 @@
-.calendar_element {
+.element {
+  overflow: hidden;
+  border: solid 1px #d0d0d0;
+  border-top: none;
+  text-align: center;
+}
+
+.element_title {
+  margin: 10px 0;
 }
