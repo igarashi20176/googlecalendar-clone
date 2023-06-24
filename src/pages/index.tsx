@@ -10,7 +10,7 @@ export default function Home() {
       <div className={styles.container_header}>
         <Header />
       </div>
-      <div className={styles.containerBoard}>
+      <div className={styles.container_board}>
         <CalendarBoard />
       </div>
     </div>

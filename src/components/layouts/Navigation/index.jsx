@@ -17,15 +17,19 @@ export const Navigation = () => {
           <ArrowForwardIosIcon />
         </div>
       </div>
-      <h2 className={styles.display_date}>2023年6月1日</h2>
+      <div className={styles.display_date}>
+        <h1>2023年6月1日</h1>
+      </div>
       <div className={styles.tips_icons}>
         <SearchIcon />
         <HelpOutlineIcon />
         <SettingsIcon />
       </div>
       <div className={styles.display_type}>
-        <KeyboardArrowDownIcon />
-        <p>月</p>
+        <div className={styles.display_type_box}>
+          <KeyboardArrowDownIcon />
+          <p>月</p>
+        </div>
       </div>
     </div>
   );
