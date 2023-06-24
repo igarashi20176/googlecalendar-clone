@@ -18,12 +18,16 @@ export const CalendarBoardOverview = () => {
         <div className={styles.overview_calendar_elements}>
           <div className={styles.week}>
             {days.map((day) => {
-              return <h4>{day}</h4>;
+              return <h4 key={day}>{day}</h4>;
             })}
           </div>
           <div className={styles.elements}>
             {new Array(35).fill(0).map((_, i) => {
-              return <h4 className={styles.element}>{i}</h4>;
+              return (
+                <h4 key={i} className={styles.element}>
+                  {i}
+                </h4>
+              );
             })}
           </div>
         </div>

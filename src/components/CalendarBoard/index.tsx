@@ -15,7 +15,11 @@ export const CalendarBoard = () => {
       <div className={styles.board_element}>
         <div className={styles.week}>
           {days.map((day) => {
-            return <h4 className={styles.days}>{day}</h4>;
+            return (
+              <h4 key={day} className={styles.days}>
+                {day}
+              </h4>
+            );
           })}
         </div>
         <div className={styles.element_grid}>
