@@ -27,8 +27,8 @@ export const NavigationArrow: React.FC<ComponentProps> = ({ size }) => {
 
   return (
     <div className={styles.arrow}>
-      <ArrowBackIosIcon className={font_size} />
-      <ArrowForwardIosIcon className={font_size} />
+      <ArrowBackIosIcon className={[styles.arrow_button, font_size].join(' ')} />
+      <ArrowForwardIosIcon className={[styles.arrow_button, font_size].join(' ')} />
     </div>
   );
 };

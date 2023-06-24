@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+.arrow_button {
+  cursor: pointer;
+}
+
 .large {
   font-size: 36px;
 }
