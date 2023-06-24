@@ -8,17 +8,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+import { NavigationArrow } from '@/components/elements/NavigationArrow';
+
 export const Navigation = () => {
   return (
     <div className={styles.navigation}>
       <div className={styles.calendar_arrow}>
-        <div className={styles.arrow}>
-          <ArrowBackIosIcon />
-          <ArrowForwardIosIcon />
-        </div>
+        <NavigationArrow size='large' />
       </div>
       <div className={styles.display_date}>
-        <h1>2023年6月1日</h1>
+        <h1>2023 年 6 月 1 日</h1>
       </div>
       <div className={styles.tips_icons}>
         <SearchIcon />

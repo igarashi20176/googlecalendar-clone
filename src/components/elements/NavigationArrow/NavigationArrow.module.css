@@ -1,0 +1,18 @@
+.arrow {
+  display: flex;
+  gap: 0 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.large {
+  font-size: 36px;
+}
+
+.medium {
+  font-size: 24px;
+}
+
+.small {
+  font-size: 18px;
+}
