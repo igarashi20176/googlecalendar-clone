@@ -1,0 +1,36 @@
+.board {
+  display: flex;
+  height: 100%;
+}
+
+.board_overview {
+  flex: 0.25;
+  border-right: solid 1px #d0d0d0;
+  height: 100%;
+}
+
+.board_element {
+  height: 100%;
+  flex: 0.75;
+  display: flex;
+  flex-direction: column;
+}
+
+.week {
+  flex-basis: 5%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.days {
+  height: 100%;
+  padding: 8px 0;
+  border-left: solid 1px #d0d0d0;
+}
+
+.element_grid {
+  flex-basis: 95%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}

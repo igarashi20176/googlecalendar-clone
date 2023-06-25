@@ -1,0 +1,25 @@
+.overview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.overview_calendar {
+  flex-basis: 62%;
+  height: 100%;
+  border-bottom: solid 1px #d0d0d0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.calendar_container {
+  width: 100%;
+}
+
+.overview_options {
+  flex-basis: 38%;
+  flex-grow: 1;
+}

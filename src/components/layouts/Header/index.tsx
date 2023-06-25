@@ -11,7 +11,8 @@ export const Header = () => {
     <div className={styles.container}>
       <div className={styles.header_logo}>
         <ReorderIcon />
-        <NextImage className={styles.logo_image} src={logoImage} alt='google' />
+        <h1>Calendar</h1>
+        {/* <NextImage className={styles.logo_image} src={logoImage} alt='google' /> */}
       </div>
       <div className={styles.navigation}>
         <Navigation />
