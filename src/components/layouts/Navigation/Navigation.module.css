@@ -7,25 +7,12 @@
 
 .calendar_arrow {
   flex: 0.1;
-}
-
-.arrow {
-  display: flex;
-  gap: 0 20px;
-  justify-content: center;
-  align-items: center;
-}
-
-.back {
-  font-size: 36px;
-}
-
-.forward {
-  font-size: 36px;
+  padding-left: 1rem;
 }
 
 .display_date {
   flex: 0.55;
+  padding-left: 1rem;
 }
 
 .display_date > h1 {
