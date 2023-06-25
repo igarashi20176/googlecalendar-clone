@@ -14,13 +14,13 @@ export const Navigation = () => {
   return (
     <div className={styles.navigation}>
       <div className={styles.calendar_arrow}>
-        <NavigationArrow size='large' />
+        <NavigationArrow size='medium' />
       </div>
       <div className={styles.display_date}>
-        <h1>2023 年 6 月 1 日</h1>
+        <h2>2023 年 6 月 1 日</h2>
       </div>
       <div className={styles.tips_icons}>
-        <SearchIcon />
+        <SearchIcon className={styles.search_icon} />
         <HelpOutlineIcon />
         <SettingsIcon />
       </div>

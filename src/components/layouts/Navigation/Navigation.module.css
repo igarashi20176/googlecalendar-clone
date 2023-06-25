@@ -23,8 +23,11 @@
   flex: 0.25;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 0 8px;
+}
+
+.search_icon {
+  margin-top: 3px;
 }
 
 .display_type {

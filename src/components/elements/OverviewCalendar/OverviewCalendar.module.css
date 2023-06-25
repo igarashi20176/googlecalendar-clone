@@ -17,6 +17,7 @@
 
 .overview_calendar_elements {
   width: 80%;
+  font-size: 0.8rem;
 }
 
 .week {
@@ -46,11 +47,11 @@
   transform: translate(-50%, -50%);
   width: calc(50% + 10px);
   height: calc(100% + 10px);
-  background-color: #0068f3;
+  background-color: rgba(30, 128, 255, 0.1);
   border-radius: 50%;
   z-index: -1;
 }
 
-.element:hover {
+/* .element:hover {
   color: #ffffff;
-}
+} */

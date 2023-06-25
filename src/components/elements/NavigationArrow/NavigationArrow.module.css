@@ -1,39 +1,12 @@
 .arrow {
   display: flex;
-  gap: 0 20px;
+  gap: 0 0.8rem;
   justify-content: center;
   align-items: center;
 }
 
 .arrow_button {
-  position: relative;
   cursor: pointer;
-}
-
-.arrow_button:hover::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100%);
-  height: calc(80%);
-  background-color: rgba(211, 211, 211, 0.6);
-  border-radius: 50%;
-  z-index: -1;
-}
-
-.arrow_button:active::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100%);
-  height: calc(80%);
-  background-color: rgba(211, 211, 211, 0.8);
-  border-radius: 50%;
-  z-index: -1;
 }
 
 .large {

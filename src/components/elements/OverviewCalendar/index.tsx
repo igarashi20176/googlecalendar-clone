@@ -9,9 +9,9 @@ export const OverviewCalendar = () => {
   return (
     <div className={styles.overview_calendar}>
       <div className={styles.overview_calendar_navigation}>
-        <h3>2023 年 6 月 1 日</h3>
+        <h4>2023 年 6 月 1 日</h4>
         <div className={styles.overview_arrow}>
-          <NavigationArrow size='medium' />
+          <NavigationArrow size='small' />
         </div>
       </div>
       <div className={styles.overview_calendar_elements}>
