@@ -12,7 +12,7 @@ export const CalendarBoard = () => {
       <div className={styles.board_overview}>
         <CalendarBoardOverview />
       </div>
-      <div className={styles.board_element}>
+      <div className={styles.board_elements}>
         <div className={styles.week}>
           {days.map((day) => {
             return (
@@ -22,7 +22,7 @@ export const CalendarBoard = () => {
             );
           })}
         </div>
-        <div className={styles.element_grid}>
+        <div className={styles.elements_grid}>
           {new Array(35).fill(0).map((i) => {
             return <CalendarElement key={i} />;
           })}

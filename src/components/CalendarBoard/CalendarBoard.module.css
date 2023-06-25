@@ -9,7 +9,7 @@
   height: 100%;
 }
 
-.board_element {
+.board_elements {
   height: 100%;
   flex: 0.75;
   display: flex;
@@ -29,7 +29,7 @@
   border-left: solid 1px #d0d0d0;
 }
 
-.element_grid {
+.elements_grid {
   flex-basis: 95%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
