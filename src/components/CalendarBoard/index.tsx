@@ -62,7 +62,7 @@ export const CalendarBoard: React.FC = () => {
             );
           })}
         </div>
-        <div className={styles.element_grid}>
+        <div className={styles.elements_grid}>
           {calendar.board.map((date, idx) => {
             // カレンダーの日付が1の場合，月を表示
             if (date !== 1) {
