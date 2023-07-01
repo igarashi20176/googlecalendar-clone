@@ -1,10 +1,24 @@
 .element {
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
   border: solid 1px #d0d0d0;
   border-top: none;
   text-align: center;
+  font-size: 0.9rem;
+}
+
+.element_event {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
 }
 
 .element_title {
-  margin: 10px 0;
+  padding: 0 2px;
+  margin: 0 3px;
+  background-color: rgba(0, 102, 204, 0.8);
+  border-radius: 5px;
+  color: #ffffff;
 }
