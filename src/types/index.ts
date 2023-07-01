@@ -10,10 +10,23 @@ type EventType = {
   };
 };
 
+type DateType = {
+  month: number | null;
+  date: number;
+};
+
+// context
 type CalendarContextType = {
   year: number;
   month: number;
-  board: number[];
+  board: DateType[];
 };
 
-export type { EventType, CalendarContextType };
+// reducer Action
+type EventActionType =
+  | { type: 'add'; payload: EventType }
+  | { type: 'delete'; payload: string }
+  | { type: 'getEventsByDate'; payload: number }
+  | { type: 'reset' };
+
+export type { EventType, CalendarContextType, DateType, EventActionType };

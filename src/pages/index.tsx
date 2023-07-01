@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google';
-import { useState, createContext } from 'react';
+import { useState, createContext, useCallback } from 'react';
 import styles from '@/styles/Home.module.css';
 
-import { CalendarContextType } from '@/types';
+import { CalendarContextType, DateType } from '@/types';
 
 import { Header } from '@/components/layouts/Header';
 import { CalendarBoard } from '@/components/CalendarBoard';
@@ -33,7 +33,30 @@ export default function Home() {
   const today = new Date();
   const [currYear, currMonth, currDate] = [today.getFullYear(), today.getMonth(), today.getDate()];
 
-  const calendarBoard: number[] = getCalendarBoard(currYear, currMonth);
+  let count = 0;
+  const getCalendarBoardAddingMonth = useCallback(
+    (currYear: number, currMonth: number): DateType[] => {
+      const cb = getCalendarBoard(currYear, currMonth);
+
+      return cb.map((date) => {
+        // カレンダーの日付が1じゃない場合，nullを返しカレンダーに月を表示しない
+        if (date !== 1) {
+          return { month: null, date: date };
+        }
+
+        count += 1;
+        // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
+        if (count === 2) {
+          return { month: currMonth + 1, date: date };
+        } else {
+          return { month: currMonth, date: date };
+        }
+      });
+    },
+    [today],
+  );
+
+  const calendarBoardAddingMonth: DateType[] = getCalendarBoardAddingMonth(currYear, currMonth);
 
   return (
     <div className={styles.container}>
@@ -41,7 +64,7 @@ export default function Home() {
         value={{
           year: currYear,
           month: currMonth,
-          board: calendarBoard,
+          board: calendarBoardAddingMonth,
         }}
       >
         <div className={styles.container_header}>
