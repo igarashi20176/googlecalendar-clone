@@ -3,23 +3,12 @@ type EventType = {
   startDate: string;
   endDate: string;
   location: string;
-  participants: Array<string>;
-  notificationSettings: {
-    time: string;
-    method: string;
-  };
 };
 
 type DateType = {
-  month: number | null;
-  date: number;
-};
-
-// context
-type CalendarContextType = {
   year: number;
   month: number;
-  board: DateType[];
+  date: number;
 };
 
 // reducer Action
@@ -29,4 +18,4 @@ type EventActionType =
   | { type: 'getEventsByDate'; payload: number }
   | { type: 'reset' };
 
-export type { EventType, CalendarContextType, DateType, EventActionType };
+export type { EventType, DateType, EventActionType };

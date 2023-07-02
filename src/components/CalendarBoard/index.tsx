@@ -1,61 +1,43 @@
-import React, { useState, useReducer, useContext, useCallback } from 'react';
+import React, { useState, useReducer, useContext, useCallback, ChangeEvent } from 'react';
 import styles from './CalendarBoard.module.css';
 
 import { CalendarContext } from '@/pages/index';
 
-import { EventType, CalendarContextType, EventActionType } from '@/types';
+import { EventType, DateType, EventActionType } from '@/types';
 
 import { useDialog } from '@/features/hooks/useDialog';
 
 import { CalendarBoardOverview } from '../CalendarBoardOverview';
 import { CalendarElement } from '../CalendarElement';
 
+const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
+
 type State = EventType[];
 
 const initialState: State = [
   {
     title: 'ミーティング',
-    startDate: '2023-06-05T10:00:00',
-    endDate: '2023-06-05T12:00:00',
+    startDate: '2023年7月5日',
+    endDate: '2023年7月5日',
     location: '会議室A',
-    participants: ['john@example.com', 'jane@example.com'],
-    notificationSettings: {
-      time: '10 minutes before',
-      method: 'email',
-    },
   },
   {
     title: 'ティーチング',
-    startDate: '2023-06-05T10:00:00',
-    endDate: '2023-06-05T12:00:00',
-    location: '会議室A',
-    participants: ['john@example.com', 'jane@example.com'],
-    notificationSettings: {
-      time: '10 minutes before',
-      method: 'email',
-    },
+    startDate: '2023年7月5日',
+    endDate: '2023年7月5日',
+    location: '会議室B',
   },
   {
     title: 'ランチ',
-    startDate: '2023-06-05T10:00:00',
-    endDate: '2023-06-05T12:00:00',
-    location: '会議室A',
-    participants: ['john@example.com', 'jane@example.com'],
-    notificationSettings: {
-      time: '10 minutes before',
-      method: 'email',
-    },
+    startDate: '2023年7月28日',
+    endDate: '2023年7月28日',
+    location: '渋谷遊覧堂',
   },
   {
     title: 'A君と会社帰りに飲みに行く',
-    startDate: '2023-06-28T10:00:00',
-    endDate: '2023-06-28T12:00:00',
-    location: '会議室A',
-    participants: ['john@example.com', 'jane@example.com'],
-    notificationSettings: {
-      time: '10 minutes before',
-      method: 'email',
-    },
+    startDate: '2023年7月15日',
+    endDate: '2023年7月15日',
+    location: '呑み天国',
   },
 ];
 
@@ -74,26 +56,62 @@ const reducer = (state: State, action: EventActionType) => {
 };
 
 export const CalendarBoard: React.FC = () => {
-  const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
   const { Dialog, open: openDialog, close: closeDialog } = useDialog();
+  const [inputEvent, setInputEvent] = useState<EventType>({
+    title: '',
+    startDate: '',
+    endDate: '',
+    location: '',
+  });
+
+  const calendarBoard: DateType[] = useContext(CalendarContext);
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const getEventsByDate = useCallback((date: number) => {
-    return state.filter((e) => {
-      const d = new Date(e.startDate);
-
-      return date === d.getDate();
-    });
+  const handleInputEvent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name: key, value } = e.target;
+    setInputEvent((prevInputEvent) => ({
+      ...prevInputEvent,
+      [key]: value,
+    }));
   }, []);
 
-  const calendar: CalendarContextType = useContext(CalendarContext);
+  const handleEventStartDate = useCallback((fullDate: DateType) => {
+    const { year, month, date } = fullDate;
+
+    setInputEvent((prevInputEvent) => ({
+      ...prevInputEvent,
+      startDate: `${year}年${month}月${date}日`,
+    }));
+  }, []);
+
+  const resetInputEvent = () => {
+    setInputEvent({
+      title: '',
+      startDate: '',
+      endDate: '',
+      location: '',
+    });
+  };
+
+  const getEventsByDate = useCallback(
+    (fullDate: DateType): EventType[] => {
+      const { year: currYear, month: currMonth, date: currDate } = fullDate;
+
+      return state.filter((e) => {
+        const [year, month, date] = Array.from(e.startDate.matchAll(/\d+/g), (match) => Number(match[0]));
+        return currMonth === month - 1 && currDate === date;
+      });
+    },
+    [state],
+  );
+
   return (
     <div className={styles.board}>
-      <div className={styles.board_overview}>
+      <section className={styles.board_overview}>
         <CalendarBoardOverview />
-      </div>
+      </section>
 
-      <div className={styles.board_elements}>
+      <section className={styles.board_elements}>
         <div className={styles.week}>
           {days.map((day) => {
             return (
@@ -104,17 +122,57 @@ export const CalendarBoard: React.FC = () => {
           })}
         </div>
         <div className={styles.elements_grid}>
-          {calendar.board.map((b, idx) => {
-            return <CalendarElement key={idx} {...b} events={getEventsByDate(b.date)} />;
+          {calendarBoard.map((cb, idx) => {
+            return (
+              <CalendarElement
+                key={idx}
+                fullDate={cb}
+                events={getEventsByDate(cb)}
+                handleDialog={() => {
+                  handleEventStartDate(cb);
+                  openDialog();
+                }}
+              />
+            );
           })}
         </div>
-      </div>
+      </section>
 
       <Dialog>
-        <header>
-          <h2>タイトル</h2>
-        </header>
-        <section>コンテンツ</section>
+        <form
+          onSubmit={() => {
+            dispatch({ type: 'add', payload: inputEvent });
+            closeDialog();
+            resetInputEvent();
+          }}
+        >
+          <div>
+            <label>
+              タイトル:
+              <input onChange={handleInputEvent} type='text' value={inputEvent.title} name='title' />
+            </label>
+          </div>
+          <div>
+            <label>
+              開始日:
+              <input onChange={handleInputEvent} type='text' value={inputEvent.startDate} name='startDate' />
+            </label>
+          </div>
+          <div>
+            <label>
+              終了日:
+              <input onChange={handleInputEvent} type='text' value={inputEvent.endDate} name='endDate' />
+            </label>
+          </div>
+          <div>
+            <label>
+              場所:
+              <input onChange={handleInputEvent} type='text' value={inputEvent.location} name='location' />
+            </label>
+          </div>
+          <button type='submit'>イベントを追加</button>
+        </form>
+
         <footer>
           <button type='button' onClick={closeDialog}>
             close

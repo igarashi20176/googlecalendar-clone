@@ -34,7 +34,8 @@
   flex-basis: 95%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 20%);
+  /* grid-auto-rows: minmax(0, 1fr); */
 }
 
 .elements_container {
