@@ -140,7 +140,8 @@ export const CalendarBoard: React.FC = () => {
 
       <Dialog>
         <form
-          onSubmit={() => {
+          onSubmit={(e) => {
+            e.preventDefault();
             dispatch({ type: 'add', payload: inputEvent });
             closeDialog();
             resetInputEvent();
