@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './OverviewCalendar.module.css';
+
+import { CalendarContext } from '@/pages/index';
+
+import { DateType } from '@/types';
 
 import { NavigationArrow } from '../NavigationArrow';
 
 export const OverviewCalendar = () => {
+  const calendarBoard: DateType[] = useContext(CalendarContext);
+
   const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
   return (
@@ -14,6 +20,7 @@ export const OverviewCalendar = () => {
           <NavigationArrow size='small' />
         </div>
       </div>
+
       <div className={styles.overview_calendar_elements}>
         <div className={styles.week}>
           {days.map((day) => {
@@ -21,10 +28,10 @@ export const OverviewCalendar = () => {
           })}
         </div>
         <div className={styles.elements}>
-          {new Array(35).fill(0).map((_, i) => {
+          {calendarBoard.map((cb, idx) => {
             return (
-              <h4 key={i} className={styles.element}>
-                {i}
+              <h4 key={idx} className={styles.element}>
+                {cb.date}
               </h4>
             );
           })}

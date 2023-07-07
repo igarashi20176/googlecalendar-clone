@@ -1,17 +1,13 @@
 import { Inter } from 'next/font/google';
-import { useState, createContext, useCallback } from 'react';
+import { createContext, useCallback } from 'react';
 import styles from '@/styles/Home.module.css';
 
-import { CalendarContextType, DateType } from '@/types';
+import { DateType } from '@/types';
 
 import { Header } from '@/components/layouts/Header';
 import { CalendarBoard } from '@/components/CalendarBoard';
 
-export const CalendarContext = createContext<CalendarContextType>({
-  year: 2023,
-  month: 6,
-  board: [],
-});
+export const CalendarContext = createContext<DateType[]>([]);
 
 const getCalendarBoard = (currYear: number, currMonth: number): number[] => {
   const calendarBoard: number[] = Array(35)
@@ -19,9 +15,9 @@ const getCalendarBoard = (currYear: number, currMonth: number): number[] => {
     .map((_, i) => {
       const firstDate = new Date(currYear, currMonth, 1);
       const firstDay = firstDate.getDay();
-      const curDay = i - firstDay;
+      const currDay = i - firstDay;
 
-      firstDate.setDate(firstDate.getDate() + curDay);
+      firstDate.setDate(firstDate.getDate() + currDay);
       const calendarDate = firstDate.getDate();
       return calendarDate;
     });
@@ -33,40 +29,33 @@ export default function Home() {
   const today = new Date();
   const [currYear, currMonth, currDate] = [today.getFullYear(), today.getMonth(), today.getDate()];
 
+  // 2022/12 -> 2023/1にような年代わりの場合に，currYearの整合性が取れない
   let count = 0;
-  const getCalendarBoardAddingMonth = useCallback(
+  const getCalendarBoardWithFullYear = useCallback(
     (currYear: number, currMonth: number): DateType[] => {
       const cb = getCalendarBoard(currYear, currMonth);
 
       return cb.map((date) => {
-        // カレンダーの日付が1じゃない場合，nullを返しカレンダーに月を表示しない
-        if (date !== 1) {
-          return { month: null, date: date };
-        }
-
-        count += 1;
+        if (date === 1) count++;
         // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
-        if (count === 2) {
-          return { month: currMonth + 1, date: date };
-        } else {
-          return { month: currMonth, date: date };
+        switch (count) {
+          case 0:
+            return { year: currYear, month: currMonth - 1, date };
+          case 1:
+            return { year: currYear, month: currMonth, date };
+          case 2:
+            return { year: currYear, month: currMonth + 1, date };
+          default:
+            return { year: 2023, month: 0, date: 1 };
         }
       });
     },
     [today],
   );
 
-  const calendarBoardAddingMonth: DateType[] = getCalendarBoardAddingMonth(currYear, currMonth);
-
   return (
     <div className={styles.container}>
-      <CalendarContext.Provider
-        value={{
-          year: currYear,
-          month: currMonth,
-          board: calendarBoardAddingMonth,
-        }}
-      >
+      <CalendarContext.Provider value={getCalendarBoardWithFullYear(currYear, currMonth)}>
         <div className={styles.container_header}>
           <Header />
         </div>
