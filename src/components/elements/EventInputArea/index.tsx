@@ -17,7 +17,7 @@ export const EventInputArea: React.FC<{
         <div>
           <label>
             タイトル:
-            <input onChange={props.handleInputEvent} type='text' value={1} name='title' />
+            {/* <input onChange={props.handleInputEvent} type='text' value={1} name='title' /> */}
           </label>
         </div>
         <div>
