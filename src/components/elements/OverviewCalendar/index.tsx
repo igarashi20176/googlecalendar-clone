@@ -3,21 +3,21 @@ import styles from './OverviewCalendar.module.css';
 
 import { CalendarContext } from '@/pages/index';
 
-import { DateType } from '@/types';
-
 import { NavigationArrow } from '../NavigationArrow';
 
 export const OverviewCalendar = () => {
-  const calendarBoard: DateType[] = useContext(CalendarContext);
+  const { calendarBoard, handleSelectedMonth, selectedDate } = useContext(CalendarContext);
 
   const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
   return (
     <div className={styles.overview_calendar}>
       <div className={styles.overview_calendar_navigation}>
-        <h4>2023 年 6 月 1 日</h4>
+        <h4>
+          {selectedDate.year} 年 {selectedDate.month + 1} 月
+        </h4>
         <div className={styles.overview_arrow}>
-          <NavigationArrow size='small' />
+          <NavigationArrow handleSelectedMonth={handleSelectedMonth} size='small' />
         </div>
       </div>
 

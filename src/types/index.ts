@@ -11,6 +11,8 @@ type DateType = {
   date: number;
 };
 
+type ViewType = 'year' | 'month' | 'week' | 'day';
+
 // reducer Action
 type EventActionType =
   | { type: 'add'; payload: EventType }
@@ -18,4 +20,10 @@ type EventActionType =
   | { type: 'getEventsByDate'; payload: number }
   | { type: 'reset' };
 
-export type { EventType, DateType, EventActionType };
+// context Type
+type CalendarContextType = {
+  calendarBoard: DateType[];
+  selectedDate: DateType;
+  handleSelectedMonth: (step: number) => void;
+};
+export type { EventType, DateType, ViewType, EventActionType, CalendarContextType };
