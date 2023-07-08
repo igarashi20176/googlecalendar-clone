@@ -9,6 +9,7 @@ import { CalendarBoard } from '@/components/CalendarBoard';
 
 export const CalendarContext = createContext<CalendarContextType>({
   calendarBoard: [],
+  today: { year: 0, month: 0, date: 0 },
   selectedDate: { year: 0, month: 0, date: 0 },
   handleSelectedMonth: () => {},
 });
@@ -27,7 +28,7 @@ const getCalendarBoard = (selectedYear: number, selectedDate: number): number[] 
     });
 };
 
-export const Home = () => {
+const Home: React.FC = () => {
   const today = new Date();
   const todayDate: DateType = {
     year: today.getFullYear(),
@@ -79,8 +80,9 @@ export const Home = () => {
       <CalendarContext.Provider
         value={{
           calendarBoard: calendarBoardWithFullDate,
-          handleSelectedMonth: handleSelectedMonth,
+          today: todayDate,
           selectedDate: selectedDate,
+          handleSelectedMonth: handleSelectedMonth,
         }}
       >
         <div className={styles.container_header}>
@@ -93,3 +95,5 @@ export const Home = () => {
     </div>
   );
 };
+
+export default Home;

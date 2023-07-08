@@ -4,9 +4,14 @@ import styles from './CalendarElement.module.css';
 import { DateType, EventType } from '@/types/index';
 import { handleClientScriptLoad } from 'next/script';
 
-export const CalendarElement: React.FC<{ fullDate: DateType; events: EventType[]; handleDialog: VoidFunction }> = (
-  props,
-) => {
+type Props = {
+  fullDate: DateType;
+  isToday: boolean;
+  events: EventType[];
+  handleDialog: VoidFunction;
+};
+
+export const CalendarElement: React.FC<Props> = (props) => {
   const { year, month, date } = props.fullDate;
 
   return (

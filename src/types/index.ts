@@ -23,6 +23,7 @@ type EventActionType =
 // context Type
 type CalendarContextType = {
   calendarBoard: DateType[];
+  today: DateType;
   selectedDate: DateType;
   handleSelectedMonth: (step: number) => void;
 };
