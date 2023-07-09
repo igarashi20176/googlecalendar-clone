@@ -9,16 +9,20 @@ import { CalendarBoard } from '@/components/CalendarBoard';
 
 export const CalendarContext = createContext<CalendarContextType>({
   calendarBoard: [],
-  today: { year: 0, month: 0, date: 0 },
-  selectedDate: { year: 0, month: 0, date: 0 },
-  handleSelectedMonth: () => {},
+  calendarOverview: [],
+  selectedBoardDate: { year: 0, month: 0, date: 0 },
+  selectedOverviewDate: { year: 0, month: 0, date: 0 },
+  checkIsToday: () => true,
+  handleSelectedBoardMonth: () => {},
+  handleSelectedOverviewMonth: () => {},
+  handleSelectedBoardDate: () => {},
 });
 
-const getCalendarBoard = (selectedYear: number, selectedDate: number): number[] => {
+const getCalendarBoard = (selectedYear: number, selectedBoardDate: number): number[] => {
   return Array(35)
     .fill(0)
     .map((_, i) => {
-      const firstDate = new Date(selectedYear, selectedDate, 1);
+      const firstDate = new Date(selectedYear, selectedBoardDate, 1);
       const firstDayIndex = firstDate.getDay();
       const diffFromFirstDate = i - firstDayIndex;
 
@@ -37,14 +41,15 @@ const Home: React.FC = () => {
   };
 
   const [viewType, setViewType] = useState<ViewType>('year');
-  const [selectedDate, setSelectedDate] = useState<DateType>(todayDate);
+  const [selectedBoardDate, setSelectedBoardDate] = useState<DateType>(todayDate);
+  const [selectedOverviewDate, setSelectedOverviewDate] = useState<DateType>(todayDate);
 
   // [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
-  let count = 0;
-  const calendarBoardWithFullDate = useMemo(() => {
+  const calendarWithFullDate = useCallback((selectedDate: DateType) => {
     const { year: sYear, month: sMonth, date: sDate } = selectedDate;
     const cb = getCalendarBoard(sYear, sMonth);
 
+    let count = 0;
     return cb.map((date) => {
       if (date === 1) count++;
       // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
@@ -59,30 +64,54 @@ const Home: React.FC = () => {
           return { year: 2023, month: 0, date: 1 };
       }
     });
-  }, [selectedDate]);
+  }, []);
 
-  const handleSelectedMonth = useCallback((step: number): void => {
-    setSelectedDate((prevSelectedDate) => {
-      // [注意] システム上では，monthの値は，0-index
-      if (prevSelectedDate.month + step === -1) {
-        return { ...prevSelectedDate, year: prevSelectedDate.year - 1, month: 11 };
-      }
-      if (prevSelectedDate.month + step === 12) {
-        return { ...prevSelectedDate, year: prevSelectedDate.year + 1, month: 0 };
-      }
+  const checkIsToday = (d: DateType): boolean => {
+    return (Object.keys(d) as (keyof DateType)[]).every((prop) => todayDate[prop] === d[prop]);
+  };
 
-      return { ...prevSelectedDate, month: prevSelectedDate.month + step };
-    });
+  const handleSelectedMonth = useCallback(
+    (step: number, setSelectedDate: React.Dispatch<React.SetStateAction<DateType>>): void => {
+      setSelectedDate((prevSelectedDate) => {
+        // [注意] システム上では，monthの値は，0-index
+        if (prevSelectedDate.month + step === -1) {
+          return { ...prevSelectedDate, year: prevSelectedDate.year - 1, month: 11 };
+        }
+        if (prevSelectedDate.month + step === 12) {
+          return { ...prevSelectedDate, year: prevSelectedDate.year + 1, month: 0 };
+        }
+
+        return { ...prevSelectedDate, month: prevSelectedDate.month + step };
+      });
+    },
+    [],
+  );
+
+  const handleSelectedBoardMonth = useCallback(
+    (step: number): void => handleSelectedMonth(step, setSelectedBoardDate),
+    [],
+  );
+  const handleSelectedOverviewMonth = useCallback(
+    (step: number): void => handleSelectedMonth(step, setSelectedOverviewDate),
+    [],
+  );
+
+  const handleSelectedBoardDate = useCallback((fullDate: DateType): void => {
+    setSelectedBoardDate(fullDate);
   }, []);
 
   return (
     <div className={styles.container}>
       <CalendarContext.Provider
         value={{
-          calendarBoard: calendarBoardWithFullDate,
-          today: todayDate,
-          selectedDate: selectedDate,
-          handleSelectedMonth: handleSelectedMonth,
+          calendarBoard: calendarWithFullDate(selectedBoardDate),
+          calendarOverview: calendarWithFullDate(selectedOverviewDate),
+          selectedBoardDate: selectedBoardDate,
+          selectedOverviewDate: selectedOverviewDate,
+          checkIsToday: checkIsToday,
+          handleSelectedBoardMonth: handleSelectedBoardMonth,
+          handleSelectedOverviewMonth: handleSelectedOverviewMonth,
+          handleSelectedBoardDate: handleSelectedBoardDate,
         }}
       >
         <div className={styles.container_header}>

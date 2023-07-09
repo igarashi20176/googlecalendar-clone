@@ -23,8 +23,12 @@ type EventActionType =
 // context Type
 type CalendarContextType = {
   calendarBoard: DateType[];
-  today: DateType;
-  selectedDate: DateType;
-  handleSelectedMonth: (step: number) => void;
+  calendarOverview: DateType[];
+  selectedBoardDate: DateType;
+  selectedOverviewDate: DateType;
+  checkIsToday: (fullDate: DateType) => boolean;
+  handleSelectedBoardMonth: (step: number) => void;
+  handleSelectedOverviewMonth: (step: number) => void;
+  handleSelectedBoardDate: (fullDate: DateType) => void;
 };
 export type { EventType, DateType, ViewType, EventActionType, CalendarContextType };

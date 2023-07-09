@@ -21,6 +21,9 @@ export const NavigationArrow: React.FC<ComponentProps> = ({ size, handleSelected
     case 'small':
       font_size = styles.small;
       break;
+    case 'tiny':
+      font_size = styles.tiny;
+      break;
     default:
       font_size = styles.medium;
       break;

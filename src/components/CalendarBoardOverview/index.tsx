@@ -16,6 +16,7 @@ export const CalendarBoardOverview = () => {
       </div>
       <div className={styles.overview_options}>
         <p>options</p>
+        <input type='checkbox' /> 五十嵐 蓮
       </div>
     </div>
   );

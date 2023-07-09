@@ -10,16 +10,16 @@ import { NavigationArrow } from '@/components/elements/NavigationArrow';
 import { CalendarContext } from '@/pages';
 
 export const Navigation = () => {
-  const { handleSelectedMonth, selectedDate } = useContext(CalendarContext);
+  const { handleSelectedBoardMonth, selectedBoardDate } = useContext(CalendarContext);
 
   return (
     <div className={styles.navigation}>
       <div className={styles.calendar_arrow}>
-        <NavigationArrow size='medium' handleSelectedMonth={handleSelectedMonth} />
+        <NavigationArrow size='medium' handleSelectedMonth={handleSelectedBoardMonth} />
       </div>
       <div className={styles.view_date}>
         <h2>
-          {selectedDate.year} 年 {selectedDate.month + 1} 月
+          {selectedBoardDate.year} 年 {selectedBoardDate.month + 1} 月
         </h2>
       </div>
       <div className={styles.tips_icons}>

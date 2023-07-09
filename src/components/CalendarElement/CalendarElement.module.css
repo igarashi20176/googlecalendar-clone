@@ -9,6 +9,30 @@
   font-size: 0.85rem;
 }
 
+.element_date {
+  background-color: #f0f0f0; /* 背景色 */
+}
+
+.today {
+  position: relative; /* 相対位置指定 */
+  color: #ffffff;
+  z-index: 2;
+}
+
+.today::before {
+  content: '';
+  position: absolute; /* 絶対位置指定 */
+  display: block;
+  width: 20px;
+  height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: rgba(0, 102, 204, 0.8);
+  z-index: -1;
+}
+
 .element_event {
   margin-top: 1rem;
   max-height: 100%;
