@@ -1,61 +1,119 @@
 import { Inter } from 'next/font/google';
-import { createContext, useCallback } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import styles from '@/styles/Home.module.css';
 
-import { DateType } from '@/types';
+import { DateType, ViewType, CalendarContextType } from '@/types';
 
 import { Header } from '@/components/layouts/Header';
 import { CalendarBoard } from '@/components/CalendarBoard';
 
-export const CalendarContext = createContext<DateType[]>([]);
+export const CalendarContext = createContext<CalendarContextType>({
+  calendarBoard: [],
+  calendarOverview: [],
+  selectedBoardDate: { year: 0, month: 0, date: 0 },
+  selectedOverviewDate: { year: 0, month: 0, date: 0 },
+  checkIsToday: () => true,
+  handleSelectedBoardMonth: () => {},
+  handleSelectedOverviewMonth: () => {},
+  handleSelectedBoardDate: () => {},
+});
 
-const getCalendarBoard = (currYear: number, currMonth: number): number[] => {
-  const calendarBoard: number[] = Array(35)
+const getCalendarBoard = (selectedYear: number, selectedBoardDate: number): number[] => {
+  return Array(35)
     .fill(0)
     .map((_, i) => {
-      const firstDate = new Date(currYear, currMonth, 1);
-      const firstDay = firstDate.getDay();
-      const currDay = i - firstDay;
+      const firstDate = new Date(selectedYear, selectedBoardDate, 1);
+      const firstDayIndex = firstDate.getDay();
+      const diffFromFirstDate = i - firstDayIndex;
 
-      firstDate.setDate(firstDate.getDate() + currDay);
-      const calendarDate = firstDate.getDate();
-      return calendarDate;
+      firstDate.setDate(firstDate.getDate() + diffFromFirstDate);
+      const dateElement = firstDate.getDate();
+      return dateElement;
     });
-
-  return calendarBoard;
 };
 
-export default function Home() {
+const Home: React.FC = () => {
   const today = new Date();
-  const [currYear, currMonth, currDate] = [today.getFullYear(), today.getMonth(), today.getDate()];
+  const todayDate: DateType = {
+    year: today.getFullYear(),
+    month: today.getMonth(),
+    date: today.getDate(),
+  };
 
-  // 2022/12 -> 2023/1にような年代わりの場合に，currYearの整合性が取れない
-  let count = 0;
-  const getCalendarBoardWithFullYear = useCallback(
-    (currYear: number, currMonth: number): DateType[] => {
-      const cb = getCalendarBoard(currYear, currMonth);
+  const [viewType, setViewType] = useState<ViewType>('year');
+  const [selectedBoardDate, setSelectedBoardDate] = useState<DateType>(todayDate);
+  const [selectedOverviewDate, setSelectedOverviewDate] = useState<DateType>(todayDate);
 
-      return cb.map((date) => {
-        if (date === 1) count++;
-        // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
-        switch (count) {
-          case 0:
-            return { year: currYear, month: currMonth - 1, date };
-          case 1:
-            return { year: currYear, month: currMonth, date };
-          case 2:
-            return { year: currYear, month: currMonth + 1, date };
-          default:
-            return { year: 2023, month: 0, date: 1 };
+  // [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
+  const calendarWithFullDate = useCallback((selectedDate: DateType) => {
+    const { year: sYear, month: sMonth, date: sDate } = selectedDate;
+    const cb = getCalendarBoard(sYear, sMonth);
+
+    let count = 0;
+    return cb.map((date) => {
+      if (date === 1) count++;
+      // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
+      switch (count) {
+        case 0:
+          return { year: sYear, month: sMonth - 1, date };
+        case 1:
+          return { year: sYear, month: sMonth, date };
+        case 2:
+          return { year: sYear, month: sMonth + 1, date };
+        default:
+          return { year: 2023, month: 0, date: 1 };
+      }
+    });
+  }, []);
+
+  const checkIsToday = (d: DateType): boolean => {
+    return (Object.keys(d) as (keyof DateType)[]).every((prop) => todayDate[prop] === d[prop]);
+  };
+
+  const handleSelectedMonth = useCallback(
+    (step: number, setSelectedDate: React.Dispatch<React.SetStateAction<DateType>>): void => {
+      setSelectedDate((prevSelectedDate) => {
+        // [注意] システム上では，monthの値は，0-index
+        if (prevSelectedDate.month + step === -1) {
+          return { ...prevSelectedDate, year: prevSelectedDate.year - 1, month: 11 };
         }
+        if (prevSelectedDate.month + step === 12) {
+          return { ...prevSelectedDate, year: prevSelectedDate.year + 1, month: 0 };
+        }
+
+        return { ...prevSelectedDate, month: prevSelectedDate.month + step };
       });
     },
-    [today],
+    [],
   );
+
+  const handleSelectedBoardMonth = useCallback(
+    (step: number): void => handleSelectedMonth(step, setSelectedBoardDate),
+    [],
+  );
+  const handleSelectedOverviewMonth = useCallback(
+    (step: number): void => handleSelectedMonth(step, setSelectedOverviewDate),
+    [],
+  );
+
+  const handleSelectedBoardDate = useCallback((fullDate: DateType): void => {
+    setSelectedBoardDate(fullDate);
+  }, []);
 
   return (
     <div className={styles.container}>
-      <CalendarContext.Provider value={getCalendarBoardWithFullYear(currYear, currMonth)}>
+      <CalendarContext.Provider
+        value={{
+          calendarBoard: calendarWithFullDate(selectedBoardDate),
+          calendarOverview: calendarWithFullDate(selectedOverviewDate),
+          selectedBoardDate: selectedBoardDate,
+          selectedOverviewDate: selectedOverviewDate,
+          checkIsToday: checkIsToday,
+          handleSelectedBoardMonth: handleSelectedBoardMonth,
+          handleSelectedOverviewMonth: handleSelectedOverviewMonth,
+          handleSelectedBoardDate: handleSelectedBoardDate,
+        }}
+      >
         <div className={styles.container_header}>
           <Header />
         </div>
@@ -65,4 +123,6 @@ export default function Home() {
       </CalendarContext.Provider>
     </div>
   );
-}
+};
+
+export default Home;

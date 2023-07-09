@@ -7,16 +7,21 @@
 
 .arrow_button {
   cursor: pointer;
+  display: block;
 }
 
 .large {
-  font-size: 36px;
+  font-size: 2rem;
 }
 
 .medium {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .small {
-  font-size: 18px;
+  font-size: 1rem;
+}
+
+.tiny {
+  font-size: 0.8rem;
 }

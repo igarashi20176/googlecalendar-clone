@@ -64,10 +64,10 @@ export const CalendarBoard: React.FC = () => {
     location: '',
   });
 
-  const calendarBoard: DateType[] = useContext(CalendarContext);
+  const { calendarBoard, checkIsToday } = useContext(CalendarContext);
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleInputEvent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputEvent = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
     const { name: key, value } = e.target;
     setInputEvent((prevInputEvent) => ({
       ...prevInputEvent,
@@ -75,12 +75,12 @@ export const CalendarBoard: React.FC = () => {
     }));
   }, []);
 
-  const handleEventStartDate = useCallback((fullDate: DateType) => {
+  const handleEventStartDate = useCallback((fullDate: DateType): void => {
     const { year, month, date } = fullDate;
 
     setInputEvent((prevInputEvent) => ({
       ...prevInputEvent,
-      startDate: `${year}年${month}月${date}日`,
+      startDate: `${year}年${month + 1}月${date}日`,
     }));
   }, []);
 
@@ -127,6 +127,7 @@ export const CalendarBoard: React.FC = () => {
               <CalendarElement
                 key={idx}
                 fullDate={cb}
+                isToday={checkIsToday(cb)}
                 events={getEventsByDate(cb)}
                 handleDialog={() => {
                   handleEventStartDate(cb);

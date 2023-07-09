@@ -3,21 +3,22 @@ import styles from './OverviewCalendar.module.css';
 
 import { CalendarContext } from '@/pages/index';
 
-import { DateType } from '@/types';
-
 import { NavigationArrow } from '../NavigationArrow';
 
 export const OverviewCalendar = () => {
-  const calendarBoard: DateType[] = useContext(CalendarContext);
+  const { calendarOverview, handleSelectedOverviewMonth, selectedOverviewDate, handleSelectedBoardDate, checkIsToday } =
+    useContext(CalendarContext);
 
   const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
   return (
     <div className={styles.overview_calendar}>
       <div className={styles.overview_calendar_navigation}>
-        <h4>2023 年 6 月 1 日</h4>
+        <p className={styles.navigation_date}>
+          {selectedOverviewDate.year} 年 {selectedOverviewDate.month + 1} 月
+        </p>
         <div className={styles.overview_arrow}>
-          <NavigationArrow size='small' />
+          <NavigationArrow handleSelectedMonth={handleSelectedOverviewMonth} size='tiny' />
         </div>
       </div>
 
@@ -28,9 +29,13 @@ export const OverviewCalendar = () => {
           })}
         </div>
         <div className={styles.elements}>
-          {calendarBoard.map((cb, idx) => {
+          {calendarOverview.map((cb, idx) => {
             return (
-              <h4 key={idx} className={styles.element}>
+              <h4
+                key={idx}
+                onClick={() => handleSelectedBoardDate(cb)}
+                className={[styles.element, checkIsToday(cb) ? styles.today : ''].join(' ')}
+              >
                 {cb.date}
               </h4>
             );

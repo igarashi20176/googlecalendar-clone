@@ -1,31 +1,34 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './Navigation.module.css';
 
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import { NavigationArrow } from '@/components/elements/NavigationArrow';
+import { CalendarContext } from '@/pages';
 
 export const Navigation = () => {
+  const { handleSelectedBoardMonth, selectedBoardDate } = useContext(CalendarContext);
+
   return (
     <div className={styles.navigation}>
       <div className={styles.calendar_arrow}>
-        <NavigationArrow size='medium' />
+        <NavigationArrow size='medium' handleSelectedMonth={handleSelectedBoardMonth} />
       </div>
-      <div className={styles.display_date}>
-        <h2>2023 年 6 月 1 日</h2>
+      <div className={styles.view_date}>
+        <h2>
+          {selectedBoardDate.year} 年 {selectedBoardDate.month + 1} 月
+        </h2>
       </div>
       <div className={styles.tips_icons}>
         <SearchIcon className={styles.search_icon} />
         <HelpOutlineIcon />
         <SettingsIcon />
       </div>
-      <div className={styles.display_type}>
-        <div className={styles.display_type_box}>
+      <div className={styles.view_type}>
+        <div className={styles.view_type_box}>
           <KeyboardArrowDownIcon />
           <p>月</p>
         </div>

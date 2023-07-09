@@ -10,12 +10,12 @@
   padding-left: 1rem;
 }
 
-.display_date {
+.view_date {
   flex: 0.55;
   padding-left: 1rem;
 }
 
-.display_date > h1 {
+.view_date > h1 {
   font-weight: normal;
 }
 
@@ -30,17 +30,17 @@
   margin-top: 3px;
 }
 
-.display_type {
+.view_type {
   flex: 0.1;
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.display_type_box {
+.view_type_box {
   margin: 0 auto;
   margin-right: 20px;
-  width: 80px;
+  width: 60px;
   height: 60%;
   display: flex;
   align-items: center;

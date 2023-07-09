@@ -7,7 +7,6 @@ type Props = {
   isOpen: boolean;
   children: React.ReactNode;
   onClose: VoidFunction;
-  addNewEvent?: VoidFunction;
 };
 
 export const Dialog: React.FC<Props> = (props) => {

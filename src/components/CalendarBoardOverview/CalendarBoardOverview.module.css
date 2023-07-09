@@ -22,4 +22,5 @@
 .overview_options {
   flex-basis: 38%;
   flex-grow: 1;
+  padding-left: 10px;
 }
