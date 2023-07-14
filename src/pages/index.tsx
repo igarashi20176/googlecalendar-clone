@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google';
-import { createContext, useCallback, useMemo, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import styles from '@/styles/Home.module.css';
 
 import { DateType, ViewType, CalendarContextType } from '@/types';
@@ -40,9 +40,14 @@ const Home: React.FC = () => {
     date: today.getDate(),
   };
 
-  const [viewType, setViewType] = useState<ViewType>('year');
+  const [viewType, setViewType] = useState<ViewType>('month');
   const [selectedBoardDate, setSelectedBoardDate] = useState<DateType>(todayDate);
   const [selectedOverviewDate, setSelectedOverviewDate] = useState<DateType>(todayDate);
+
+  // カレンダーが変更されたらオーバービューカレンダーに同期
+  useEffect(() => {
+    setSelectedOverviewDate(selectedBoardDate);
+  }, [selectedBoardDate]);
 
   // [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
   const calendarWithFullDate = useCallback((selectedDate: DateType) => {
@@ -87,10 +92,11 @@ const Home: React.FC = () => {
     [],
   );
 
-  const handleSelectedBoardMonth = useCallback(
-    (step: number): void => handleSelectedMonth(step, setSelectedBoardDate),
-    [],
-  );
+  // [バグ] reflect関数を実行してもoverviewとboardが同期しない
+  const handleSelectedBoardMonth = useCallback((step: number): void => {
+    handleSelectedMonth(step, setSelectedBoardDate);
+  }, []);
+
   const handleSelectedOverviewMonth = useCallback(
     (step: number): void => handleSelectedMonth(step, setSelectedOverviewDate),
     [],

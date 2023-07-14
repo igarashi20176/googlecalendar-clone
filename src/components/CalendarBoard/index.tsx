@@ -17,26 +17,26 @@ type State = EventType[];
 const initialState: State = [
   {
     title: 'ミーティング',
-    startDate: '2023年7月5日',
-    endDate: '2023年7月5日',
+    startDate: '2023年6月5日',
+    endDate: '2023年6月5日',
     location: '会議室A',
   },
   {
     title: 'ティーチング',
-    startDate: '2023年7月5日',
-    endDate: '2023年7月5日',
+    startDate: '2023年6月5日',
+    endDate: '2023年6月5日',
     location: '会議室B',
   },
   {
     title: 'ランチ',
-    startDate: '2023年7月28日',
-    endDate: '2023年7月28日',
+    startDate: '2023年6月28日',
+    endDate: '2023年6月28日',
     location: '渋谷遊覧堂',
   },
   {
     title: 'A君と会社帰りに飲みに行く',
-    startDate: '2023年7月15日',
-    endDate: '2023年7月15日',
+    startDate: '2023年6月15日',
+    endDate: '2023年6月15日',
     location: '呑み天国',
   },
 ];
@@ -80,6 +80,7 @@ export const CalendarBoard: React.FC = () => {
 
     setInputEvent((prevInputEvent) => ({
       ...prevInputEvent,
+      // ユーザに表示するため+1
       startDate: `${year}年${month + 1}月${date}日`,
     }));
   }, []);
@@ -99,7 +100,7 @@ export const CalendarBoard: React.FC = () => {
 
       return state.filter((e) => {
         const [year, month, date] = Array.from(e.startDate.matchAll(/\d+/g), (match) => Number(match[0]));
-        return currMonth === month - 1 && currDate === date;
+        return currMonth === month && currDate === date;
       });
     },
     [state],
