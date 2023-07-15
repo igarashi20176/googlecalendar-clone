@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 type EventType = {
   title: string;
   startDate: string;
@@ -26,9 +28,11 @@ type CalendarContextType = {
   calendarOverview: DateType[];
   selectedBoardDate: DateType;
   selectedOverviewDate: DateType;
+  viewType: ViewType;
   checkIsToday: (fullDate: DateType) => boolean;
   handleSelectedBoardMonth: (step: number) => void;
   handleSelectedOverviewMonth: (step: number) => void;
   handleSelectedBoardDate: (fullDate: DateType) => void;
+  handleViewType: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 export type { EventType, DateType, ViewType, EventActionType, CalendarContextType };
