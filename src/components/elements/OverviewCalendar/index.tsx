@@ -13,15 +13,6 @@ export const OverviewCalendar = () => {
 
   return (
     <div className={styles.overview_calendar}>
-      <div className={styles.overview_calendar_navigation}>
-        <p className={styles.navigation_date}>
-          {selectedOverviewDate.year} 年 {selectedOverviewDate.month + 1} 月
-        </p>
-        <div className={styles.overview_arrow}>
-          <NavigationArrow handleSelectedMonth={handleSelectedOverviewMonth} size='tiny' />
-        </div>
-      </div>
-
       <div className={styles.overview_calendar_elements}>
         <div className={styles.week}>
           {days.map((day) => {

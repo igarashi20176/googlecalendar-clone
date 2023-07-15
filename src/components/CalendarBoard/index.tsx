@@ -7,9 +7,9 @@ import { EventType, DateType, EventActionType } from '@/types';
 
 import { useDialog } from '@/features/hooks/useDialog';
 
-import { OverviewCalendar } from '@/components/elements/OverviewCalendar';
 import { CalendarBoardOverview } from '../CalendarBoardOverview';
 import { CalendarMonthlyBoard } from '@/components/CalendarMonthlyBoard';
+import { CalendarYearlyBoard } from '../CalendaYearlyBoard';
 
 const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -114,13 +114,16 @@ export const CalendarBoard: React.FC = () => {
       </section>
 
       <section className={styles.board_elements}>
-        <CalendarMonthlyBoard
-          calendarBoard={calendarBoard}
-          checkIsToday={checkIsToday}
-          getEventsByDate={getEventsByDate}
-          handleEventStartDate={handleEventStartDate}
-          openDialog={openDialog}
-        />
+        {viewType === 'year' && <CalendarYearlyBoard calendarBoard={calendarBoard} />}
+        {viewType === 'month' && (
+          <CalendarMonthlyBoard
+            calendarBoard={calendarBoard}
+            checkIsToday={checkIsToday}
+            getEventsByDate={getEventsByDate}
+            handleEventStartDate={handleEventStartDate}
+            openDialog={openDialog}
+          />
+        )}
       </section>
 
       <Dialog>

@@ -2,12 +2,13 @@ import React from 'react';
 import styles from './CalendarMonthlyBoard.module.css';
 
 import { CalendarElement } from '@/components/CalendarElement';
+import { DateType, EventType, CalendarBoardType } from '@/types';
 
 type Props = {
-  calendarBoard: any;
-  checkIsToday: any;
-  getEventsByDate: any;
-  handleEventStartDate: any;
+  calendarBoard: CalendarBoardType;
+  checkIsToday: (fullDate: DateType) => boolean;
+  getEventsByDate: (fullDate: DateType) => EventType[];
+  handleEventStartDate: (fullDate: DateType) => void;
   openDialog: VoidFunction;
 };
 

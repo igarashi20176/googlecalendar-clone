@@ -52,9 +52,8 @@ const Home: React.FC = () => {
   }, [selectedBoardDate]);
 
   // [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
-  const getMonthlyCalendar = useCallback((selectedDate: DateType) => {
-    const { year: sYear, month: sMonth, date: sDate } = selectedDate;
-    const cb = getCalendarBoard(sYear, sMonth);
+  const getMonthlyCalendar = useCallback((selectedyear: number, selectedMonth: number) => {
+    const cb = getCalendarBoard(selectedyear, selectedMonth);
 
     let count = 0;
     return cb.map((date) => {
@@ -62,22 +61,21 @@ const Home: React.FC = () => {
       // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
       switch (count) {
         case 0:
-          return { year: sYear, month: sMonth - 1, date };
+          return { year: selectedyear, month: selectedMonth - 1, date };
         case 1:
-          return { year: sYear, month: sMonth, date };
+          return { year: selectedyear, month: selectedMonth, date };
         case 2:
-          return { year: sYear, month: sMonth + 1, date };
+          return { year: selectedyear, month: selectedMonth + 1, date };
         default:
           return { year: 2023, month: 0, date: 1 };
       }
     });
   }, []);
 
-  const getYearlyCalendar = useCallback((selectedDate: DateType) => {
-    const { year: sYear } = selectedDate;
+  const getYearlyCalendar = useCallback((year: number) => {
     return Array(12)
       .fill(0)
-      .map((_, i) => getCalendarBoard(sYear, i));
+      .map((_, i) => getMonthlyCalendar(year, i));
   }, []);
 
   const checkIsToday = (d: DateType): boolean => {
@@ -125,9 +123,10 @@ const Home: React.FC = () => {
 
   let calendarBoard: any = [];
   if (viewType == 'year') {
-    calendarBoard = getYearlyCalendar(selectedBoardDate);
+    calendarBoard = getYearlyCalendar(selectedBoardDate.year);
+    console.log(calendarBoard);
   } else if (viewType == 'month') {
-    calendarBoard = getMonthlyCalendar(selectedBoardDate);
+    calendarBoard = getMonthlyCalendar(selectedBoardDate.year, selectedBoardDate.month);
   }
 
   return (
@@ -135,7 +134,7 @@ const Home: React.FC = () => {
       <CalendarContext.Provider
         value={{
           calendarBoard: calendarBoard,
-          calendarOverview: getMonthlyCalendar(selectedOverviewDate),
+          calendarOverview: getMonthlyCalendar(selectedBoardDate.year, selectedBoardDate.month),
           selectedBoardDate: selectedBoardDate,
           selectedOverviewDate: selectedOverviewDate,
           viewType: viewType,

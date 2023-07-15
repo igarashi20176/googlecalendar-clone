@@ -15,6 +15,15 @@
   padding-top: 2rem;
 }
 
+.overview_calendar_navigation {
+  display: flex;
+  /*コレ*/
+  justify-content: space-between;
+  padding: 5px;
+  border: 1px solid #999;
+  background: #ebfdfc;
+}
+
 .calendar_container {
   width: 100%;
 }

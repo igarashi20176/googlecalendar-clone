@@ -13,6 +13,8 @@ type DateType = {
   date: number;
 };
 
+type CalendarBoardType = DateType[] | DateType[][];
+
 type ViewType = 'year' | 'month' | 'week' | 'day';
 
 // reducer Action
@@ -24,7 +26,7 @@ type EventActionType =
 
 // context Type
 type CalendarContextType = {
-  calendarBoard: DateType[];
+  calendarBoard: CalendarBoardType;
   calendarOverview: DateType[];
   selectedBoardDate: DateType;
   selectedOverviewDate: DateType;
@@ -35,4 +37,4 @@ type CalendarContextType = {
   handleSelectedBoardDate: (fullDate: DateType) => void;
   handleViewType: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
-export type { EventType, DateType, ViewType, EventActionType, CalendarContextType };
+export type { EventType, DateType, CalendarBoardType, ViewType, EventActionType, CalendarContextType };
