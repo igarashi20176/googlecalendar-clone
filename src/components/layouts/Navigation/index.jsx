@@ -6,11 +6,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+import { PulldownSelect } from '@/components/elements/PulldownSelect';
 import { NavigationArrow } from '@/components/elements/NavigationArrow';
 import { CalendarContext } from '@/pages';
 
 export const Navigation = () => {
-  const { handleSelectedBoardMonth, selectedBoardDate } = useContext(CalendarContext);
+  const { handleSelectedBoardMonth, selectedBoardDate, viewType, handleViewType } = useContext(CalendarContext);
 
   return (
     <div className={styles.navigation}>
@@ -28,10 +29,7 @@ export const Navigation = () => {
         <SettingsIcon />
       </div>
       <div className={styles.view_type}>
-        <div className={styles.view_type_box}>
-          <KeyboardArrowDownIcon />
-          <p>月</p>
-        </div>
+        <PulldownSelect viewType={viewType} handleViewType={handleViewType} />
       </div>
     </div>
   );
