@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google';
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useEffect, useState, ChangeEvent } from 'react';
 import styles from '@/styles/Home.module.css';
 
 import { DateType, ViewType, CalendarContextType } from '@/types';
@@ -12,10 +12,12 @@ export const CalendarContext = createContext<CalendarContextType>({
   calendarOverview: [],
   selectedBoardDate: { year: 0, month: 0, date: 0 },
   selectedOverviewDate: { year: 0, month: 0, date: 0 },
+  viewType: 'month',
   checkIsToday: () => true,
   handleSelectedBoardMonth: () => {},
   handleSelectedOverviewMonth: () => {},
   handleSelectedBoardDate: () => {},
+  handleViewType: () => {},
 });
 
 const getCalendarBoard = (selectedYear: number, selectedBoardDate: number): number[] => {
@@ -44,15 +46,14 @@ const Home: React.FC = () => {
   const [selectedBoardDate, setSelectedBoardDate] = useState<DateType>(todayDate);
   const [selectedOverviewDate, setSelectedOverviewDate] = useState<DateType>(todayDate);
 
-  // カレンダーが変更されたらオーバービューカレンダーに同期
+  // calndarBoardが変更されたらOverviewCalendarに同期
   useEffect(() => {
     setSelectedOverviewDate(selectedBoardDate);
   }, [selectedBoardDate]);
 
   // [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
-  const calendarWithFullDate = useCallback((selectedDate: DateType) => {
-    const { year: sYear, month: sMonth, date: sDate } = selectedDate;
-    const cb = getCalendarBoard(sYear, sMonth);
+  const getMonthlyCalendar = useCallback((selectedyear: number, selectedMonth: number) => {
+    const cb = getCalendarBoard(selectedyear, selectedMonth);
 
     let count = 0;
     return cb.map((date) => {
@@ -60,22 +61,36 @@ const Home: React.FC = () => {
       // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
       switch (count) {
         case 0:
-          return { year: sYear, month: sMonth - 1, date };
+          return { year: selectedyear, month: selectedMonth - 1, date };
         case 1:
-          return { year: sYear, month: sMonth, date };
+          return { year: selectedyear, month: selectedMonth, date };
         case 2:
-          return { year: sYear, month: sMonth + 1, date };
+          return { year: selectedyear, month: selectedMonth + 1, date };
         default:
           return { year: 2023, month: 0, date: 1 };
       }
     });
   }, []);
 
+  const getYearlyCalendar = useCallback((year: number) => {
+    return Array(12)
+      .fill(0)
+      .map((_, i) => getMonthlyCalendar(year, i));
+  }, []);
+
   const checkIsToday = (d: DateType): boolean => {
     return (Object.keys(d) as (keyof DateType)[]).every((prop) => todayDate[prop] === d[prop]);
   };
 
-  const handleSelectedMonth = useCallback(
+  const handleViewType = useCallback((event: ChangeEvent<HTMLSelectElement>): void => {
+    const type = event.target.value;
+
+    if (type === 'year' || type === 'month' || type === 'week' || type === 'day') {
+      setViewType(type);
+    }
+  }, []);
+
+  const changeSelectedMonth = useCallback(
     (step: number, setSelectedDate: React.Dispatch<React.SetStateAction<DateType>>): void => {
       setSelectedDate((prevSelectedDate) => {
         // [注意] システム上では，monthの値は，0-index
@@ -94,11 +109,11 @@ const Home: React.FC = () => {
 
   // [バグ] reflect関数を実行してもoverviewとboardが同期しない
   const handleSelectedBoardMonth = useCallback((step: number): void => {
-    handleSelectedMonth(step, setSelectedBoardDate);
+    changeSelectedMonth(step, setSelectedBoardDate);
   }, []);
 
   const handleSelectedOverviewMonth = useCallback(
-    (step: number): void => handleSelectedMonth(step, setSelectedOverviewDate),
+    (step: number): void => changeSelectedMonth(step, setSelectedOverviewDate),
     [],
   );
 
@@ -106,18 +121,28 @@ const Home: React.FC = () => {
     setSelectedBoardDate(fullDate);
   }, []);
 
+  let calendarBoard: any = [];
+  if (viewType == 'year') {
+    calendarBoard = getYearlyCalendar(selectedBoardDate.year);
+    console.log(calendarBoard);
+  } else if (viewType == 'month') {
+    calendarBoard = getMonthlyCalendar(selectedBoardDate.year, selectedBoardDate.month);
+  }
+
   return (
     <div className={styles.container}>
       <CalendarContext.Provider
         value={{
-          calendarBoard: calendarWithFullDate(selectedBoardDate),
-          calendarOverview: calendarWithFullDate(selectedOverviewDate),
+          calendarBoard: calendarBoard,
+          calendarOverview: getMonthlyCalendar(selectedOverviewDate.year, selectedOverviewDate.month),
           selectedBoardDate: selectedBoardDate,
           selectedOverviewDate: selectedOverviewDate,
+          viewType: viewType,
           checkIsToday: checkIsToday,
           handleSelectedBoardMonth: handleSelectedBoardMonth,
           handleSelectedOverviewMonth: handleSelectedOverviewMonth,
           handleSelectedBoardDate: handleSelectedBoardDate,
+          handleViewType: handleViewType,
         }}
       >
         <div className={styles.container_header}>

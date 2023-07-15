@@ -1,0 +1,29 @@
+.container {
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  padding: 1.2rem;
+  padding-right: 0;
+  margin-bottom: 1.5rem;
+}
+
+.grid_container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-row-gap: 3rem;
+  grid-column-gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 33.3%);
+}
+
+.grid_item {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid_item > p {
+  font-size: 0.9rem;
+  margin-left: 0.3rem;
+}
