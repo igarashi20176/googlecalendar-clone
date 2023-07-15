@@ -1,7 +1,10 @@
 .container {
   height: 100%;
   overflow: scroll;
-  padding: 2rem;
+  overflow-x: hidden;
+  padding: 1.2rem;
+  padding-right: 0;
+  margin-bottom: 1.5rem;
 }
 
 .grid_container {

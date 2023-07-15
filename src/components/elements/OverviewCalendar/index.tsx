@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import styles from './OverviewCalendar.module.css';
 
-import { CalendarContext } from '@/pages/index';
+import { DateType } from '@/types';
 
-import { NavigationArrow } from '../NavigationArrow';
+type Props = {
+  calendarOverview: DateType[];
+  handleSelectedBoardDate: (fullDate: DateType) => void;
+  checkIsToday: (fullDate: DateType) => boolean;
+};
 
-export const OverviewCalendar = () => {
-  const { calendarOverview, handleSelectedOverviewMonth, selectedOverviewDate, handleSelectedBoardDate, checkIsToday } =
-    useContext(CalendarContext);
-
+export const OverviewCalendar: React.FC<Props> = (props) => {
   const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
   return (
@@ -20,12 +21,12 @@ export const OverviewCalendar = () => {
           })}
         </div>
         <div className={styles.elements}>
-          {calendarOverview.map((cb, idx) => {
+          {props.calendarOverview.map((cb, idx) => {
             return (
               <h4
                 key={idx}
-                onClick={() => handleSelectedBoardDate(cb)}
-                className={[styles.element, checkIsToday(cb) ? styles.today : ''].join(' ')}
+                onClick={() => props.handleSelectedBoardDate(cb)}
+                className={[styles.element, props.checkIsToday(cb) ? styles.today : ''].join(' ')}
               >
                 {cb.date}
               </h4>

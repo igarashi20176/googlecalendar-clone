@@ -11,8 +11,6 @@ import { CalendarSidevar } from '@/components/CalendarSidevar';
 import { CalendarMonthlyBoard } from '@/components/CalendarMonthlyBoard';
 import { CalendarYearlyBoard } from '../CalendaYearlyBoard';
 
-const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
-
 type State = EventType[];
 
 const initialState: State = [
@@ -114,7 +112,7 @@ export const CalendarBoard: React.FC = () => {
       </section>
 
       <section className={styles.board_elements}>
-        {viewType === 'year' && <CalendarYearlyBoard calendarBoard={calendarBoard} />}
+        {viewType === 'year' && <CalendarYearlyBoard checkIsToday={checkIsToday} calendarBoard={calendarBoard} />}
         {viewType === 'month' && (
           <CalendarMonthlyBoard
             calendarBoard={calendarBoard}

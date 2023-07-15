@@ -134,7 +134,7 @@ const Home: React.FC = () => {
       <CalendarContext.Provider
         value={{
           calendarBoard: calendarBoard,
-          calendarOverview: getMonthlyCalendar(selectedBoardDate.year, selectedBoardDate.month),
+          calendarOverview: getMonthlyCalendar(selectedOverviewDate.year, selectedOverviewDate.month),
           selectedBoardDate: selectedBoardDate,
           selectedOverviewDate: selectedOverviewDate,
           viewType: viewType,
