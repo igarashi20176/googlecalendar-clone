@@ -19,9 +19,12 @@ export const Navigation = () => {
         <NavigationArrow size='medium' handleSelectedMonth={handleSelectedBoardMonth} />
       </div>
       <div className={styles.view_date}>
-        <h2>
-          {selectedBoardDate.year} 年 {selectedBoardDate.month + 1} 月
-        </h2>
+        {viewType === 'year' && <h2>{selectedBoardDate.year} 年</h2>}
+        {viewType === 'month' && (
+          <h2>
+            {selectedBoardDate.year} 年 {selectedBoardDate.month + 1} 月
+          </h2>
+        )}
       </div>
       <div className={styles.tips_icons}>
         <SearchIcon className={styles.search_icon} />

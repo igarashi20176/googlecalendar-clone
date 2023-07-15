@@ -4,12 +4,12 @@ import styles from './NavigationArrow.module.css';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-type ComponentProps = {
+type Props = {
   size: string;
   handleSelectedMonth: (step: number) => void;
 };
 
-export const NavigationArrow: React.FC<ComponentProps> = ({ size, handleSelectedMonth }) => {
+export const NavigationArrow: React.FC<Props> = ({ size, handleSelectedMonth }) => {
   let font_size: string;
   switch (size) {
     case 'large':
@@ -29,12 +29,12 @@ export const NavigationArrow: React.FC<ComponentProps> = ({ size, handleSelected
       break;
   }
 
-  const handleDateFormer = () => handleSelectedMonth(-1);
+  const handleDatePrev = () => handleSelectedMonth(-1);
   const handleDateNext = () => handleSelectedMonth(1);
 
   return (
     <div className={styles.arrow}>
-      <span onClick={handleDateFormer}>
+      <span onClick={handleDatePrev}>
         <ArrowBackIosIcon className={[styles.arrow_button, font_size].join(' ')} />
       </span>
       <span onClick={handleDateNext}>

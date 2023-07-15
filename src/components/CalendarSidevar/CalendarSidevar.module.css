@@ -1,34 +1,40 @@
-.overview {
+.sidenav {
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
 }
 
-.overview_calendar {
+.overview {
   flex-basis: 62%;
+  width: 100%;
   height: 100%;
   border-bottom: solid 1px #d0d0d0;
-  width: 100%;
+}
+
+.overview_calendar {
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 2rem;
+  margin: 0 auto;
 }
 
-.overview_calendar_navigation {
+.overview_navigation {
+  width: 100%;
+  padding: 0 0.5rem;
+  margin-bottom: 0.2rem;
   display: flex;
-  /*コレ*/
+  align-items: center;
   justify-content: space-between;
-  padding: 5px;
-  border: 1px solid #999;
-  background: #ebfdfc;
 }
 
 .calendar_container {
   width: 100%;
 }
 
-.overview_options {
+.options {
   flex-basis: 38%;
   flex-grow: 1;
   padding-left: 10px;
