@@ -7,8 +7,9 @@ import { EventType, DateType, EventActionType } from '@/types';
 
 import { useDialog } from '@/features/hooks/useDialog';
 
+import { OverviewCalendar } from '@/components/elements/OverviewCalendar';
 import { CalendarBoardOverview } from '../CalendarBoardOverview';
-import { CalendarElement } from '../CalendarElement';
+import { CalendarMonthlyBoard } from '@/components/CalendarMonthlyBoard';
 
 const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
@@ -64,7 +65,7 @@ export const CalendarBoard: React.FC = () => {
     location: '',
   });
 
-  const { calendarBoard, checkIsToday } = useContext(CalendarContext);
+  const { calendarBoard, checkIsToday, viewType } = useContext(CalendarContext);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleInputEvent = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
@@ -96,10 +97,10 @@ export const CalendarBoard: React.FC = () => {
 
   const getEventsByDate = useCallback(
     (fullDate: DateType): EventType[] => {
-      const { year: currYear, month: currMonth, date: currDate } = fullDate;
+      const { month: currMonth, date: currDate } = fullDate;
 
       return state.filter((e) => {
-        const [year, month, date] = Array.from(e.startDate.matchAll(/\d+/g), (match) => Number(match[0]));
+        const [_, month, date] = Array.from(e.startDate.matchAll(/\d+/g), (match) => Number(match[0]));
         return currMonth === month && currDate === date;
       });
     },
@@ -113,31 +114,13 @@ export const CalendarBoard: React.FC = () => {
       </section>
 
       <section className={styles.board_elements}>
-        <div className={styles.week}>
-          {days.map((day) => {
-            return (
-              <p key={day} className={styles.days}>
-                {day}
-              </p>
-            );
-          })}
-        </div>
-        <div className={styles.elements_grid}>
-          {calendarBoard.map((cb, idx) => {
-            return (
-              <CalendarElement
-                key={idx}
-                fullDate={cb}
-                isToday={checkIsToday(cb)}
-                events={getEventsByDate(cb)}
-                handleDialog={() => {
-                  handleEventStartDate(cb);
-                  openDialog();
-                }}
-              />
-            );
-          })}
-        </div>
+        <CalendarMonthlyBoard
+          calendarBoard={calendarBoard}
+          checkIsToday={checkIsToday}
+          getEventsByDate={getEventsByDate}
+          handleEventStartDate={handleEventStartDate}
+          openDialog={openDialog}
+        />
       </section>
 
       <Dialog>
