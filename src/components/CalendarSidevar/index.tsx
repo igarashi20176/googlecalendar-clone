@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styles from './CalendarBoardOverview.module.css';
+import styles from './CalendarSidevar.module.css';
 
 import { CalendarContext } from '@/pages/index';
 
@@ -8,7 +8,7 @@ import { OverviewCalendar } from '@/components/elements/OverviewCalendar';
 
 const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
-export const CalendarBoardOverview = () => {
+export const CalendarSidevar = () => {
   const { selectedOverviewDate, handleSelectedOverviewMonth } = useContext(CalendarContext);
 
   return (

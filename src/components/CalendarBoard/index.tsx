@@ -7,7 +7,7 @@ import { EventType, DateType, EventActionType } from '@/types';
 
 import { useDialog } from '@/features/hooks/useDialog';
 
-import { CalendarBoardOverview } from '../CalendarBoardOverview';
+import { CalendarSidevar } from '@/components/CalendarSidevar';
 import { CalendarMonthlyBoard } from '@/components/CalendarMonthlyBoard';
 import { CalendarYearlyBoard } from '../CalendaYearlyBoard';
 
@@ -110,7 +110,7 @@ export const CalendarBoard: React.FC = () => {
   return (
     <div className={styles.board}>
       <section className={styles.board_overview}>
-        <CalendarBoardOverview />
+        <CalendarSidevar />
       </section>
 
       <section className={styles.board_elements}>
