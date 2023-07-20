@@ -1,9 +1,9 @@
-.overview_calendar {
+.container {
   width: 100%;
   height: 100%;
 }
 
-.overview_calendar_elements {
+.overview_calendar {
   width: 100%;
   font-size: 0.8rem;
 }
@@ -20,9 +20,6 @@
   grid-template-columns: repeat(7, 1fr);
   grid-row-gap: 0.5rem;
   text-align: center;
-}
-
-.element {
   position: relative;
   cursor: pointer;
 }
@@ -44,18 +41,5 @@
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background-color: rgba(0, 102, 204, 0.8);
-  z-index: -1;
-}
-
-.element:hover::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(50% + 10px);
-  height: calc(100% + 10px);
-  background-color: rgba(30, 128, 255, 0.1);
-  border-radius: 50%;
   z-index: -1;
 }

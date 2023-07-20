@@ -145,10 +145,10 @@ const Home: React.FC = () => {
           handleViewType: handleViewType,
         }}
       >
-        <div className={styles.container_header}>
+        <div className={styles.header}>
           <Header />
         </div>
-        <div className={styles.container_board}>
+        <div className={styles.board}>
           <CalendarBoard />
         </div>
       </CalendarContext.Provider>

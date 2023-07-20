@@ -33,7 +33,7 @@ export const NavigationArrow: React.FC<Props> = ({ size, handleSelectedMonth }) 
   const handleDateNext = () => handleSelectedMonth(1);
 
   return (
-    <div className={styles.arrow}>
+    <div className={styles.arrows}>
       <span onClick={handleDatePrev}>
         <ArrowBackIosIcon className={[styles.arrow_button, font_size].join(' ')} />
       </span>

@@ -106,12 +106,12 @@ export const CalendarBoard: React.FC = () => {
   );
 
   return (
-    <div className={styles.board}>
-      <section className={styles.board_overview}>
+    <div className={styles.container}>
+      <section className={styles.sidevar}>
         <CalendarSidevar />
       </section>
 
-      <section className={styles.board_elements}>
+      <section className={styles.board}>
         {viewType === 'year' && <CalendarYearlyBoard checkIsToday={checkIsToday} calendarBoard={calendarBoard} />}
         {viewType === 'month' && (
           <CalendarMonthlyBoard

@@ -1,15 +1,15 @@
-.board {
+.container {
   display: flex;
   height: 100%;
 }
 
-.board_overview {
+.sidevar {
   flex: 0.2;
   height: 100%;
   border-right: solid 1px #d0d0d0;
 }
 
-.board_elements {
+.board {
   flex: 0.8;
   height: 100%;
   display: flex;

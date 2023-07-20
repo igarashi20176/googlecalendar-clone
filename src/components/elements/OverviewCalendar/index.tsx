@@ -13,8 +13,8 @@ export const OverviewCalendar: React.FC<Props> = (props) => {
   const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
 
   return (
-    <div className={styles.overview_calendar}>
-      <div className={styles.overview_calendar_elements}>
+    <div className={styles.container}>
+      <div className={styles.overview_calendar}>
         <div className={styles.week}>
           {days.map((day) => {
             return <h4 key={day}>{day}</h4>;

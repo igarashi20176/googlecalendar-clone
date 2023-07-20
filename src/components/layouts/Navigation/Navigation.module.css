@@ -5,17 +5,17 @@
   align-items: center;
 }
 
-.calendar_arrow {
+.navigation_arrow {
   flex: 0.1;
   padding-left: 1rem;
 }
 
-.view_date {
+.navigation_date {
   flex: 0.55;
   padding-left: 1rem;
 }
 
-.view_date > h1 {
+.navigation_date > h1 {
   font-weight: normal;
 }
 
@@ -37,7 +37,7 @@
   align-items: center;
 }
 
-.view_type_box {
+/* .view_type_box {
   margin: 0 auto;
   margin-right: 20px;
   width: 60px;
@@ -47,4 +47,4 @@
   justify-content: center;
   border: solid 1px;
   border-radius: 5px;
-}
+} */
