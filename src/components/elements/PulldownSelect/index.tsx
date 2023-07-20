@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import styles from './PulldownSelect.module.css';
 
 import { ViewType } from '@/types';
 
 type Props = {
-  handleViewType: VoidFunction;
+  handleViewType: (e: ChangeEvent<HTMLSelectElement>) => void;
   viewType: ViewType;
 };
 
