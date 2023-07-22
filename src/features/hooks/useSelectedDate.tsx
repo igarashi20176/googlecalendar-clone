@@ -8,7 +8,7 @@ type Return = {
 };
 
 export const useSelectedDate = (initialDate: DateType) => {
-  const [selectedBoardDate, setSelectedBoardDate] = useState<DateType>(initialDate);
+  const [selectedDate, setSelectedDate] = useState<DateType>(initialDate);
 
   // selectedBoardとselectedOverviewの月操作を共通化
   const changeSelectedMonth = useCallback(
@@ -28,13 +28,13 @@ export const useSelectedDate = (initialDate: DateType) => {
     [],
   );
 
-  const changeSelectedBoardYear = useCallback((step: number): void => {
-    setSelectedBoardDate((prevSelectedDate) => ({ ...prevSelectedDate, year: prevSelectedDate.year + step }));
+  const changeSelectedYear = useCallback((step: number): void => {
+    setSelectedDate((prevSelectedDate) => ({ ...prevSelectedDate, year: prevSelectedDate.year + step }));
   }, []);
 
   // [バグ] reflect関数を実行してもoverviewとboardが同期しない
-  const handleSelectedBoardMonth = useCallback((step: number): void => {
-    changeSelectedMonth(step, setSelectedBoardDate);
+  const handleSelectedMonth = useCallback((step: number): void => {
+    changeSelectedMonth(step, setSelectedDate);
   }, []);
 
   // const handleSelectedOverviewMonth = useCallback(
@@ -42,9 +42,9 @@ export const useSelectedDate = (initialDate: DateType) => {
   //   [],
   // );
 
-  const handleSelectedBoardDate = useCallback((fullDate: DateType): void => {
-    setSelectedBoardDate(fullDate);
+  const handleSelectedDate = useCallback((fullDate: DateType): void => {
+    setSelectedDate(fullDate);
   }, []);
 
-  // return { open, close, Dialog };
+  return { selectedDate, setSelectedDate, handleSelectedDate };
 };
