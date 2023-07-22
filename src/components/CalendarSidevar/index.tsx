@@ -6,8 +6,6 @@ import { CalendarContext } from '@/pages/index';
 import { NavigationArrow } from '@/components/elements/NavigationArrow';
 import { OverviewCalendar } from '@/components/elements/OverviewCalendar';
 
-const days: Array<string> = ['日', '月', '火', '水', '木', '金', '土'];
-
 export const CalendarSidevar = () => {
   const { selectedOverviewDate, calendarOverview, handleSelectedBoardDate, checkIsToday, handleSelectedOverviewMonth } =
     useContext(CalendarContext);
@@ -21,7 +19,7 @@ export const CalendarSidevar = () => {
               {selectedOverviewDate.year} 年 {selectedOverviewDate.month + 1} 月
             </p>
             <div className={styles.overview_arrow}>
-              <NavigationArrow handleSelectedMonth={handleSelectedOverviewMonth} size='tiny' />
+              <NavigationArrow handleSelectedDate={handleSelectedOverviewMonth} size='tiny' />
             </div>
           </div>
           <OverviewCalendar

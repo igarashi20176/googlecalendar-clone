@@ -2,10 +2,14 @@ import { Inter } from 'next/font/google';
 import { createContext, useCallback, useEffect, useState, ChangeEvent } from 'react';
 import styles from '@/styles/Home.module.css';
 
-import { DateType, ViewType, CalendarContextType } from '@/types';
+import { DateType, ViewType, CalendarContextType, CalendarBoardType } from '@/types';
 
 import { Header } from '@/components/layouts/Header';
 import { CalendarBoard } from '@/components/CalendarBoard';
+
+const PREV_MONTH = 0;
+const THIS_MONTH = 1;
+const NEXT_MONTH = 2;
 
 export const CalendarContext = createContext<CalendarContextType>({
   calendarBoard: [],
@@ -18,6 +22,7 @@ export const CalendarContext = createContext<CalendarContextType>({
   handleSelectedOverviewMonth: () => {},
   handleSelectedBoardDate: () => {},
   handleViewType: () => {},
+  changeSelectedBoardYear: () => {},
 });
 
 const getCalendarBoard = (selectedYear: number, selectedBoardDate: number): number[] => {
@@ -29,9 +34,36 @@ const getCalendarBoard = (selectedYear: number, selectedBoardDate: number): numb
       const diffFromFirstDate = i - firstDayIndex;
 
       firstDate.setDate(firstDate.getDate() + diffFromFirstDate);
-      const dateElement = firstDate.getDate();
-      return dateElement;
+      const date = firstDate.getDate();
+      return date;
     });
+};
+
+// [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
+const getMonthlyCalendar = (selectedyear: number, selectedMonth: number) => {
+  const cb = getCalendarBoard(selectedyear, selectedMonth);
+
+  let count = 0;
+  return cb.map((date) => {
+    if (date === 1) count++;
+    // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
+    switch (count) {
+      case PREV_MONTH:
+        return { year: selectedyear, month: selectedMonth - 1, date };
+      case THIS_MONTH:
+        return { year: selectedyear, month: selectedMonth, date };
+      case NEXT_MONTH:
+        return { year: selectedyear, month: selectedMonth + 1, date };
+      default:
+        return { year: 2023, month: 0, date: 1 };
+    }
+  });
+};
+
+const getYearlyCalendar = (selectedYear: number) => {
+  return Array(12)
+    .fill(0)
+    .map((_, i) => getMonthlyCalendar(selectedYear, i));
 };
 
 const Home: React.FC = () => {
@@ -51,45 +83,21 @@ const Home: React.FC = () => {
     setSelectedOverviewDate(selectedBoardDate);
   }, [selectedBoardDate]);
 
-  // [エラー]2022/12 -> 2023/1にような年代わりの場合に，selectedYearの整合性が取れない
-  const getMonthlyCalendar = useCallback((selectedyear: number, selectedMonth: number) => {
-    const cb = getCalendarBoard(selectedyear, selectedMonth);
-
-    let count = 0;
-    return cb.map((date) => {
-      if (date === 1) count++;
-      // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
-      switch (count) {
-        case 0:
-          return { year: selectedyear, month: selectedMonth - 1, date };
-        case 1:
-          return { year: selectedyear, month: selectedMonth, date };
-        case 2:
-          return { year: selectedyear, month: selectedMonth + 1, date };
-        default:
-          return { year: 2023, month: 0, date: 1 };
-      }
-    });
-  }, []);
-
-  const getYearlyCalendar = useCallback((year: number) => {
-    return Array(12)
-      .fill(0)
-      .map((_, i) => getMonthlyCalendar(year, i));
-  }, []);
-
   const checkIsToday = (d: DateType): boolean => {
     return (Object.keys(d) as (keyof DateType)[]).every((prop) => todayDate[prop] === d[prop]);
   };
 
   const handleViewType = useCallback((event: ChangeEvent<HTMLSelectElement>): void => {
-    const type = event.target.value;
+    const type = event.target.value as ViewType;
 
-    if (type === 'year' || type === 'month' || type === 'week' || type === 'day') {
+    if (['year', 'month', 'week', 'day'].includes(type)) {
       setViewType(type);
+    } else {
+      throw new Error('Failed to fetch data');
     }
   }, []);
 
+  // selectedBoardとselectedOverviewの月操作を共通化
   const changeSelectedMonth = useCallback(
     (step: number, setSelectedDate: React.Dispatch<React.SetStateAction<DateType>>): void => {
       setSelectedDate((prevSelectedDate) => {
@@ -107,6 +115,10 @@ const Home: React.FC = () => {
     [],
   );
 
+  const changeSelectedBoardYear = useCallback((step: number): void => {
+    setSelectedBoardDate((prevSelectedDate) => ({ ...prevSelectedDate, year: prevSelectedDate.year + step }));
+  }, []);
+
   // [バグ] reflect関数を実行してもoverviewとboardが同期しない
   const handleSelectedBoardMonth = useCallback((step: number): void => {
     changeSelectedMonth(step, setSelectedBoardDate);
@@ -121,10 +133,9 @@ const Home: React.FC = () => {
     setSelectedBoardDate(fullDate);
   }, []);
 
-  let calendarBoard: any = [];
+  let calendarBoard: CalendarBoardType = [];
   if (viewType == 'year') {
     calendarBoard = getYearlyCalendar(selectedBoardDate.year);
-    console.log(calendarBoard);
   } else if (viewType == 'month') {
     calendarBoard = getMonthlyCalendar(selectedBoardDate.year, selectedBoardDate.month);
   }
@@ -143,6 +154,7 @@ const Home: React.FC = () => {
           handleSelectedOverviewMonth: handleSelectedOverviewMonth,
           handleSelectedBoardDate: handleSelectedBoardDate,
           handleViewType: handleViewType,
+          changeSelectedBoardYear: changeSelectedBoardYear,
         }}
       >
         <div className={styles.header}>

@@ -6,10 +6,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 type Props = {
   size: string;
-  handleSelectedMonth: (step: number) => void;
+  handleSelectedDate: (step: number) => void;
 };
 
-export const NavigationArrow: React.FC<Props> = ({ size, handleSelectedMonth }) => {
+export const NavigationArrow: React.FC<Props> = ({ size, handleSelectedDate }) => {
   let font_size: string;
   switch (size) {
     case 'large':
@@ -29,8 +29,8 @@ export const NavigationArrow: React.FC<Props> = ({ size, handleSelectedMonth }) 
       break;
   }
 
-  const handleDatePrev = () => handleSelectedMonth(-1);
-  const handleDateNext = () => handleSelectedMonth(1);
+  const handleDatePrev = () => handleSelectedDate(-1);
+  const handleDateNext = () => handleSelectedDate(1);
 
   return (
     <div className={styles.arrows}>
