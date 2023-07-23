@@ -7,6 +7,10 @@ import { DateType, ViewType, CalendarContextType } from '@/types';
 import { Header } from '@/components/layouts/Header';
 import { CalendarBoard } from '@/components/CalendarBoard';
 
+const PREV_MONTH = 0;
+const CURR_MONTH = 1;
+const NEXT_MONTH = 2;
+
 export const CalendarContext = createContext<CalendarContextType>({
   calendarBoard: [],
   calendarOverview: [],
@@ -60,11 +64,11 @@ const Home: React.FC = () => {
       if (date === 1) count++;
       // 日付が1の場合，月を表示 / 二回目の1の時，次月を表示
       switch (count) {
-        case 0:
+        case PREV_MONTH:
           return { year: selectedyear, month: selectedMonth - 1, date };
-        case 1:
+        case CURR_MONTH:
           return { year: selectedyear, month: selectedMonth, date };
-        case 2:
+        case NEXT_MONTH:
           return { year: selectedyear, month: selectedMonth + 1, date };
         default:
           return { year: 2023, month: 0, date: 1 };
@@ -124,7 +128,6 @@ const Home: React.FC = () => {
   let calendarBoard: any = [];
   if (viewType == 'year') {
     calendarBoard = getYearlyCalendar(selectedBoardDate.year);
-    console.log(calendarBoard);
   } else if (viewType == 'month') {
     calendarBoard = getMonthlyCalendar(selectedBoardDate.year, selectedBoardDate.month);
   }
