@@ -112,11 +112,9 @@ export const CalendarBoard: React.FC = () => {
       </section>
 
       <section className={styles.board}>
-        {viewType === 'year' && <CalendarYearlyBoard checkIsToday={checkIsToday} calendarBoard={calendarBoard} />}
+        {viewType === 'year' && <CalendarYearlyBoard />}
         {viewType === 'month' && (
           <CalendarMonthlyBoard
-            calendarBoard={calendarBoard}
-            checkIsToday={checkIsToday}
             getEventsByDate={getEventsByDate}
             handleEventStartDate={handleEventStartDate}
             openDialog={openDialog}
