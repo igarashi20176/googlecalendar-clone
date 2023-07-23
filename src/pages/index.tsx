@@ -83,9 +83,9 @@ const Home: React.FC = () => {
   };
 
   const handleViewType = useCallback((event: ChangeEvent<HTMLSelectElement>): void => {
-    const type = event.target.value;
+    const type = event.target.value as ViewType;
 
-    if (type === 'year' || type === 'month' || type === 'week' || type === 'day') {
+    if (['year', 'month', 'week', 'day'].includes(type)) {
       setViewType(type);
     }
   }, []);
