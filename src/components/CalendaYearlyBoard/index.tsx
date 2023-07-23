@@ -17,7 +17,7 @@ export const CalendarYearlyBoard: React.FC<Props> = (props) => {
       <div className={styles.grid_container}>
         {props.calendarBoard.map((cb, idx) => {
           return (
-            <div key={idx} className={styles.grid_item}>
+            <div className={styles.grid_item}>
               <p className={styles.overview_month}>{idx + 1} 月</p>
               <OverviewCalendar
                 calendarOverview={cb as DateType[]}

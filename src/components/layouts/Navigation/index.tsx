@@ -10,20 +10,12 @@ import { NavigationArrow } from '@/components/elements/NavigationArrow';
 import { CalendarContext } from '@/pages';
 
 export const Navigation = () => {
-  const { handleSelectedBoardMonth, selectedBoardDate, viewType, handleViewType, changeSelectedBoardYear } =
-    useContext(CalendarContext);
-
-  let handleSelectedDate = (step: number): void => {};
-  if (viewType === 'year') {
-    handleSelectedDate = changeSelectedBoardYear;
-  } else if (viewType === 'month') {
-    handleSelectedDate = handleSelectedBoardMonth;
-  }
+  const { handleSelectedBoardMonth, selectedBoardDate, viewType, handleViewType } = useContext(CalendarContext);
 
   return (
     <div className={styles.navigation}>
       <div className={styles.navigation_arrow}>
-        <NavigationArrow size='medium' handleSelectedDate={handleSelectedDate} />
+        <NavigationArrow size='medium' handleSelectedMonth={handleSelectedBoardMonth} />
       </div>
       <div className={styles.navigation_date}>
         {viewType === 'year' && <h2>{selectedBoardDate.year} 年</h2>}

@@ -36,7 +36,5 @@ type CalendarContextType = {
   handleSelectedOverviewMonth: (step: number) => void;
   handleSelectedBoardDate: (fullDate: DateType) => void;
   handleViewType: (event: ChangeEvent<HTMLSelectElement>) => void;
-  changeSelectedBoardYear: (step: number) => void;
 };
-
 export type { EventType, DateType, CalendarBoardType, ViewType, EventActionType, CalendarContextType };
